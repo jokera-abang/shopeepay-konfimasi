@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta tag untuk memastikan tampilan responsif di mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Memuat...</title>
+    <style>
+        /* Reset margin dan padding untuk tampilan mobile */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            overflow: hidden; /* Mencegah scroll saat loading */
+        }
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .loading-container img {
+            width: 50px; /* Ukuran yang pas untuk layar HP */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-container">
+        <img src="https://cs.deo.shopeemobile.com/shopee/shopee-cs-live-sg/static/helpcenterfe/b5368187f5ece943e5c1.gif" alt="Loading...">
+    </div>
+
+    <script>
+        // Mengarahkan ke halaman tujuan setelah 10 detik
+        setTimeout(function() {
+            window.location.href = "https://shopee.co.id/buyer/login"; 
+        }, 3000);
+    </script>
+
+</body>
+</html>
