@@ -5,192 +5,351 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopee</title>
     <style>
-        /* CSS STYLES */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-        }
+        /* =================================
+   RESPONSIVE CSS - ALL DEVICES
+================================= */
 
-        body {
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
 
-        .login-container {
-            background-color: white;
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
+html {
+    width: 100%;
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
 
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid #e8e8e8;
-        }
+body {
+    background-color: #f5f5f5;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
 
-        .header h1 {
-            font-size: 18px;
-            font-weight: 500;
-            color: #ee4d2d;
-            margin-left: 10px;
-            flex-grow: 1;
-        }
+/* =================================
+   LOGIN CONTAINER
+================================= */
 
-        .header-right {
-            display: flex;
-            gap: 15px;
-            margin-left: auto;
-        }
+.login-container {
+    background-color: #fff;
+    width: 100%;
+    max-width: 420px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    overflow-x: hidden;
+}
 
-        .icon-svg {
-            width: 24px;
-            height: 24px;
-            fill: #ee4d2d;
-            cursor: pointer;
-        }
+/* =================================
+   HEADER
+================================= */
 
-        /* Content */
-        .content {
-            padding: 40px 30px;
-            flex-grow: 1;
-            text-align: center;
-        }
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 58px;
+    padding: 12px clamp(12px, 4vw, 20px);
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+}
 
-        .logo {
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
-        }
+.header h1 {
+    font-size: clamp(16px, 4vw, 19px);
+    font-weight: 500;
+    color: #ee4d2d;
+    margin-left: 10px;
+    flex-grow: 1;
+}
 
-        .shopee-logo-img {
-            width: 85px; /* Ukuran logo disesuaikan */
-            height: 85px;
-            object-fit: cover;
-            border-radius: 18px; /* Membuat sudut gambar melengkung rapi */
-        }
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 3vw, 18px);
+    margin-left: auto;
+}
 
-        .input-group {
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #dbdbdb;
-            margin-bottom: 25px;
-            padding: 8px 0;
-        }
+.icon-svg {
+    width: clamp(20px, 5vw, 25px);
+    height: clamp(20px, 5vw, 25px);
+    fill: #ee4d2d;
+    cursor: pointer;
+}
 
-        .input-group svg {
-            width: 20px;
-            height: 20px;
-            fill: #888;
-            margin-right: 12px;
-        }
+/* =================================
+   CONTENT
+================================= */
 
-        .input-group input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 16px;
-        }
+.content {
+    width: 100%;
+    padding: clamp(25px, 7vh, 50px)
+             clamp(18px, 7vw, 32px);
+    flex-grow: 1;
+    text-align: center;
+}
 
-        .btn-next {
-            width: 100%;
-            padding: 12px;
-            background-color: #f7f7f7;
-            color: #ccc;
-            border: none;
-            border-radius: 2px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 15px;
-            cursor: not-allowed;
-            transition: 0.3s;
-        }
+.logo {
+    margin-bottom: clamp(25px, 6vh, 42px);
+    display: flex;
+    justify-content: center;
+}
 
-        .link-password {
-            display: block;
-            color: #0055aa;
-            text-decoration: none;
-            font-size: 12px;
-            margin-bottom: 40px;
-            margin-left: 200px;
-        }
+.shopee-logo-img {
+    width: clamp(65px, 20vw, 90px);
+    height: clamp(65px, 20vw, 90px);
+    object-fit: cover;
+    border-radius: clamp(12px, 4vw, 20px);
+}
 
-        .divider {
-            display: flex;
-            align-items: center;
-            color: #ccc;
-            margin-bottom: 25px;
-        }
+/* =================================
+   INPUT
+================================= */
 
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #dbdbdb;
-        }
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #dbdbdb;
+    margin-bottom: clamp(18px, 4vh, 26px);
+    padding: 10px 0;
+}
 
-        .divider span {
-            padding: 0 15px;
-            font-size: 12px;
-        }
+.input-group svg {
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+    fill: #888;
+    margin-right: 12px;
+}
 
-        /* Social Login */
-        .btn-social {
-            width: 100%;
-            padding: 10px;
-            background: white;
-            border: 1px solid #dbdbdb;
-            border-radius: 2px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-            gap: 10px;
-        }
+.input-group input {
+    border: none;
+    outline: none;
+    width: 100%;
+    min-width: 0;
+    font-size: 16px;
+    padding: 3px 0;
+    background: transparent;
+}
 
-        .social-svg {
-            width: 22px;
-            height: 22px;
-        }
+/* =================================
+   BUTTON NEXT
+================================= */
 
-        .terms {
-            font-size: 11px;
-            color: #888;
-            margin-top: 25px;
-            line-height: 1.4;
-        }
+.btn-next {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px;
+    background-color: #f7f7f7;
+    color: #ccc;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    cursor: not-allowed;
+    transition: 0.3s;
+}
 
-        .terms a {
-            color: #0055aa;
-            text-decoration: none;
-        }
+/* =================================
+   PASSWORD LINK
+================================= */
 
-        /* Footer */
-        .footer {
-            padding: 20px;
-            text-align: center;
-            font-size: 14px;
-            border-top: 1px solid #f0f0f0;
-            color: #888;
-        }
+.link-password {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    color: #0055aa;
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: clamp(25px, 6vh, 40px);
+    margin-left: auto;
+}
 
-        .footer a {
-            color: #ee4d2d;
-            text-decoration: none;
-            font-weight: 500;
-        }
+/* =================================
+   DIVIDER
+================================= */
+
+.divider {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #dbdbdb;
+}
+
+.divider span {
+    padding: 0 15px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* =================================
+   SOCIAL LOGIN
+================================= */
+
+.btn-social {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 10px;
+}
+
+.social-svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* =================================
+   TERMS
+================================= */
+
+.terms {
+    font-size: clamp(10px, 2.8vw, 12px);
+    color: #888;
+    margin-top: 25px;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+}
+
+.terms a {
+    color: #0055aa;
+    text-decoration: none;
+}
+
+/* =================================
+   FOOTER
+================================= */
+
+.footer {
+    width: 100%;
+    padding: clamp(15px, 4vw, 22px);
+    text-align: center;
+    font-size: clamp(12px, 3.5vw, 14px);
+    border-top: 1px solid #f0f0f0;
+    color: #888;
+    flex-shrink: 0;
+}
+
+.footer a {
+    color: #ee4d2d;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* =================================
+   SMALL MOBILE (320px - 360px)
+================================= */
+
+@media (max-width: 360px) {
+    .content {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .header h1 {
+        font-size: 16px;
+    }
+
+    .divider span {
+        padding: 0 10px;
+    }
+}
+
+/* =================================
+   TABLET (600px - 1023px)
+================================= */
+
+@media (min-width: 600px) {
+    body {
+        padding: 30px 20px;
+    }
+
+    .login-container {
+        max-width: 450px;
+        min-height: 700px;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .content {
+        padding: 45px 40px;
+    }
+}
+
+/* =================================
+   DESKTOP (1024px+)
+================================= */
+
+@media (min-width: 1024px) {
+    body {
+        padding: 40px;
+    }
+
+    .login-container {
+        max-width: 460px;
+        min-height: 720px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+    }
+
+    .content {
+        padding: 50px 45px;
+    }
+}
+
+/* =================================
+   LANDSCAPE / SHORT SCREEN
+================================= */
+
+@media (max-height: 600px) and (min-width: 600px) {
+    .login-container {
+        min-height: auto;
+    }
+
+    .content {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+    .terms {
+        margin-top: 15px;
+    }
+}
     </style>
 </head>
 <body>
