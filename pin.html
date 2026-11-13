@@ -5,34 +5,405 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ShopeePay</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body, html { width: 100%; height: 100%; overflow: hidden; background-color: #fff; }
-        .app-container { display: flex; flex-direction: column; height: 100vh; width: 100%; }
-        
-        /* Header */
-        .header { height: 56px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f2f2f2; position: relative; flex-shrink: 0; }
-        .header h2 { font-size: 17px; font-weight: 500; color: #333; }
-        .close-btn { position: absolute; right: 16px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
-        
-        /* Main Content */
-        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding-top: 60px; }
-        .pin-dots { display: flex; gap: 18px; margin-bottom: 30px; }
-        .dot { width: 14px; height: 14px; border: 1.5px solid #ddd; border-radius: 50%; }
-        .dot.filled { background-color: #333; border-color: #333; }
-        .forgot-link { color: #007bff; font-size: 14px; text-decoration: none; }
-        
-        /* Keypad */
-        .keypad-section { background-color: #f8f8f8; padding: 8px; padding-bottom: env(safe-area-inset-bottom, 15px); }
-        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .key { background: #fff; height: 60px; display: flex; justify-content: center; align-items: center; font-size: 26px; border-radius: 8px; color: #333; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .key:active { background-color: #e5e5e5; }
-        .key.empty { background: transparent; box-shadow: none; }
-        
-        /* Footer */
-        .footer-security { text-align: center; padding: 12px; font-size: 12px; color: #bbb; display: flex; justify-content: center; align-items: center; gap: 6px; background-color: #f8f8f8; }
-        .icon-close { width: 18px; height: 18px; fill: #888; }
-        .icon-backspace { width: 28px; height: 28px; fill: #333; }
-        .icon-shield { width: 14px; height: 14px; fill: #ccc; }
+/* =====================================
+   RESET & GLOBAL
+===================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* =====================================
+   APP CONTAINER
+===================================== */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.header {
+    min-height: 56px;
+    height: clamp(50px, 7vh, 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f2f2f2;
+    position: relative;
+    flex-shrink: 0;
+    padding: 0 16px;
+}
+
+.header h2 {
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+}
+
+.close-btn {
+    position: absolute;
+    right: clamp(12px, 3vw, 20px);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon-close {
+    width: 18px;
+    height: 18px;
+    fill: #888;
+}
+
+/* =====================================
+   MAIN CONTENT
+===================================== */
+
+.main-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: clamp(25px, 8vh, 75px);
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-y: auto;
+}
+
+/* =====================================
+   PIN DOTS
+===================================== */
+
+.pin-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(12px, 4vw, 20px);
+    margin-bottom: clamp(20px, 5vh, 35px);
+}
+
+.dot {
+    width: clamp(11px, 3.5vw, 15px);
+    height: clamp(11px, 3.5vw, 15px);
+    border: 1.5px solid #ddd;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot.filled {
+    background-color: #333;
+    border-color: #333;
+}
+
+/* =====================================
+   FORGOT LINK
+===================================== */
+
+.forgot-link {
+    color: #007bff;
+    font-size: clamp(12px, 3.5vw, 14px);
+    text-decoration: none;
+    text-align: center;
+}
+
+/* =====================================
+   KEYPAD SECTION
+===================================== */
+
+.keypad-section {
+    width: 100%;
+    padding: clamp(6px, 2vw, 12px);
+    padding-bottom: calc(
+        clamp(8px, 2vw, 14px) +
+        env(safe-area-inset-bottom, 0px)
+    );
+    background-color: #f8f8f8;
+    flex-shrink: 0;
+}
+
+/* =====================================
+   KEYPAD GRID
+===================================== */
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(5px, 1.5vw, 10px);
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+/* =====================================
+   KEYPAD BUTTONS
+===================================== */
+
+.key {
+    background: #fff;
+    width: 100%;
+    height: clamp(48px, 9vh, 70px);
+    min-height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(22px, 5vw, 28px);
+    border-radius: clamp(6px, 2vw, 10px);
+    color: #333;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease;
+}
+
+.key:active {
+    background-color: #e5e5e5;
+}
+
+.key.empty {
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+}
+
+/* =====================================
+   BACKSPACE ICON
+===================================== */
+
+.icon-backspace {
+    width: clamp(23px, 6vw, 30px);
+    height: clamp(23px, 6vw, 30px);
+    fill: #333;
+}
+
+/* =====================================
+   FOOTER SECURITY
+===================================== */
+
+.footer-security {
+    width: 100%;
+    text-align: center;
+    padding: clamp(8px, 2vh, 14px);
+    padding-bottom: calc(
+        clamp(8px, 2vh, 14px) +
+        env(safe-area-inset-bottom, 0px)
+    );
+    font-size: clamp(10px, 3vw, 12px);
+    color: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background-color: #f8f8f8;
+    flex-shrink: 0;
+}
+
+.icon-shield {
+    width: 14px;
+    height: 14px;
+    fill: #ccc;
+    flex-shrink: 0;
+}
+
+/* =====================================
+   SMALL MOBILE
+   320px - 360px
+===================================== */
+
+@media (max-width: 360px) {
+
+    .header {
+        min-height: 50px;
+    }
+
+    .main-content {
+        padding-top: 25px;
+    }
+
+    .pin-dots {
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .keypad-grid {
+        gap: 5px;
+    }
+
+    .key {
+        height: clamp(44px, 8vh, 58px);
+        font-size: 23px;
+    }
+}
+
+/* =====================================
+   MOBILE LANDSCAPE
+===================================== */
+
+@media (max-height: 500px) {
+
+    .header {
+        min-height: 42px;
+        height: 42px;
+    }
+
+    .main-content {
+        padding-top: 10px;
+    }
+
+    .pin-dots {
+        margin-bottom: 12px;
+    }
+
+    .key {
+        height: clamp(38px, 11vh, 48px);
+        min-height: 38px;
+    }
+
+    .footer-security {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+/* =====================================
+   TABLET
+   600px - 1023px
+===================================== */
+
+@media (min-width: 600px) {
+
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .app-container {
+        max-width: 480px;
+        min-height: 700px;
+        height: min(850px, 95vh);
+        height: min(850px, 95dvh);
+        margin: auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+    }
+
+    .main-content {
+        padding-top: 65px;
+    }
+
+    .keypad-section {
+        padding: 12px 18px;
+    }
+
+    .keypad-grid {
+        gap: 10px;
+    }
+
+    .key {
+        height: 65px;
+        font-size: 28px;
+    }
+}
+
+/* =====================================
+   DESKTOP / LAPTOP
+   1024px+
+===================================== */
+
+@media (min-width: 1024px) {
+
+    body {
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .app-container {
+        max-width: 460px;
+        min-height: 720px;
+        height: min(850px, 90vh);
+        height: min(850px, 90dvh);
+        border-radius: 12px;
+        box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+    }
+
+    .header {
+        min-height: 60px;
+    }
+
+    .main-content {
+        padding-top: 70px;
+    }
+
+    .keypad-section {
+        padding: 14px 20px;
+    }
+
+    .key {
+        height: 65px;
+        font-size: 28px;
+    }
+}
+
+/* =====================================
+   SHORT DESKTOP SCREEN
+===================================== */
+
+@media (min-width: 600px) and (max-height: 650px) {
+
+    .app-container {
+        min-height: 0;
+        height: 96vh;
+        height: 96dvh;
+    }
+
+    .main-content {
+        padding-top: 15px;
+    }
+
+    .pin-dots {
+        margin-bottom: 15px;
+    }
+
+    .key {
+        height: 45px;
+        min-height: 40px;
+    }
+}
     </style>
 </head>
 <body>
